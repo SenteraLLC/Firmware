@@ -1388,6 +1388,8 @@ protected:
 				digicam_ctrl_cmd.param7 = NAN;
 
 				mavlink_msg_command_long_send_struct(_mavlink->get_channel(), &digicam_ctrl_cmd);
+
+                PX4_WARN("JRW -- DO_DIGICAM_CONTROL Sent -- Channel: %d", _mavlink->get_channel());
 			}
 		}
 	}

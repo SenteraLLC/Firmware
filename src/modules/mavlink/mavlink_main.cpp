@@ -728,6 +728,7 @@ int Mavlink::mavlink_open_uart(int baud, const char *uart_name)
 
 	/* open uart */
 	_uart_fd = ::open(uart_name, O_RDWR | O_NOCTTY);
+//    PX4_WARN("JRW -- FD: %d, Name: %s", _uart_fd, uart_name);
 
 	/* if this is a config link, stay here and wait for it to open */
 	if (_uart_fd < 0 && _mode == MAVLINK_MODE_CONFIG) {
@@ -1006,6 +1007,10 @@ Mavlink::send_bytes(const uint8_t *buf, unsigned packet_len)
 
 		if (buf_free < packet_len) {
 			/* not enough space in buffer to send */
+            if (strcmp(_device_name, "/dev/ttyS2") == 0) {
+				PX4_WARN("JRW -- Serial Buffer Overflow, Device: %s", _device_name);
+			}
+
 			count_txerr();
 			count_txerrbytes(packet_len);
 			return;
